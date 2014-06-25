@@ -29,7 +29,7 @@ Bouncer+
 - !move ---- @usuário (X) ---- Move o usuário mencionado a posição escolhida, exemplo: !move @Fernando 3
 - !remove ---- @usuário ---- Remove o usuário mencionado da flla de espera
 - !roulette ---- ---- Inicia uma roleta
-- !sambar ---- @usuário1 @usuário2 ---- Troca usuários de posições um com o outro
+- !swap ---- @usuário1 @usuário2 ---- Troca usuários de posições um com o outro
 - !unlock ---- ---- Destrava a fila de espera
 - !welcome ---- ---- Ativa/desativa mensagem de boas vindas para usuários
 
