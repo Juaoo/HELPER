@@ -39,7 +39,7 @@ var storeToStorage = function(){
 
 var retrieveFromStorage = function(){
     var info = localStorage.getItem("esBotStorageInfo");
-    if(info === null) API.chatLog("No previous data found.");
+    if(info === null) API.chatLog("Nada encontrado...");
     else{
         var settings = JSON.parse(localStorage.getItem("esBotRoomSettings"));
         var room = JSON.parse(localStorage.getItem("esBotRoom"));
@@ -89,11 +89,11 @@ var esBot = {
         name: "HELPER",
         creator: "Fesnandu",
         loggedInID: null,
-        scriptLink: "https://rawgit.com/motelbible/farofaBot/master/farofaBot.js",
-        cmdLink: "https://github.com/motelbible/farofaBot/blob/master/commands.md",
+        scriptLink: "https://rawgit.com/Juaoo/HELPER/master/HELPER.js",
+        cmdLink: "https://github.com/Juaoo/HELPER/blob/master/commands.md",
         roomSettings: {
             maximumAfk: 90,
-            afkRemoval: true,                
+            afkRemoval: false,                
             maximumDc: 90,                                
             bouncerPlus: true,                
             lockdownEnabled: false,                
@@ -102,7 +102,7 @@ var esBot = {
             cycleGuard: true,
             maximumCycletime: 10,                
             timeGuard: true,
-            maximumSongLength: 10,                
+            maximumSongLength: 50,                
             autodisable: true,                
             commandCooldown: 30,
             usercommandsEnabled: true,                
@@ -117,18 +117,18 @@ var esBot = {
                 ],
             afkpositionCheck: 15,
             afkRankCheck: "ambassador",                
-            motdEnabled: true,
+            motdEnabled: false,
             motdInterval: 7,
             motd: "!roulette",
             filterChat: true,
             etaRestriction: true,
             welcome: false,
             opLink: null,
-            rulesLink: "http://pastebin.com/PnEWbSeC",
+            rulesLink: "http://goo.gl/ujapAO",
             themeLink: null,
-            fbLink: "http://migre.me/fxqUu",
+            fbLink: null,
             youtubeLink: null,
-            website: "https://www.facebook.com/DivasdaDepressao",
+            website: "http://bestsongs82.wix.com/thebestsongs",
             intervalMessages: [],
             messageInterval: 38,
             songstats: false,                      
@@ -831,7 +831,7 @@ var esBot = {
                     case '!skip':               esBot.commands.skipCommand.functionality(chat, '!skip');                            executed = true; break;
                     case '!source':             esBot.commands.sourceCommand.functionality(chat, '!source');                        executed = true; break;
                     case '!status':             esBot.commands.statusCommand.functionality(chat, '!status');                        executed = true; break;
-                    case '!sambar':             esBot.commands.sambarCommand.functionality(chat, '!sambar');                        executed = true; break;
+                    case '!swap':               esBot.commands.swapCommand.functionality(chat, '!swap');                            executed = true; break;
                     //case '!theme':              esBot.commands.themeCommand.functionality(chat, '!theme');                          executed = true; break;
                     //case '!timeguard':          esBot.commands.timeguardCommand.functionality(chat, '!timeguard');                  executed = true; break;
                     case '!togglemotd':         esBot.commands.togglemotdCommand.functionality(chat, '!togglemotd');                executed = true; break;
@@ -2207,14 +2207,14 @@ var esBot = {
                                     var launchT = esBot.room.roomstats.launchTime;
                                     var durationOnline = Date.now() - launchT;
                                     var since = esBot.roomUtilities.msToStr(durationOnline);
-                                    msg += 'Estou sambando por ' + since + '. ';
+                                    msg += 'Estou online por ' + since + '. ';
                                       
                                      return API.sendChat(msg);
                                 };                              
                         },
                 },
                 
-                sambarCommand: {
+                swapCommand: {
                         rank: 'mod',
                         type: 'startsWith',
                         functionality: function(chat, cmd){
@@ -2222,7 +2222,7 @@ var esBot = {
                                 if( !esBot.commands.executable(this.rank, chat) ) return void (0);
                                 else{
                                     var msg = chat.message;
-                                    if(msg.length === cmd.length) return API.sendChat('/me [@' + chat.from + '] Não deu pra sambar.');
+                                    if(msg.length === cmd.length) return API.sendChat('/me [@' + chat.from + '] Não deu pra trocar.');
                                     var firstSpace = msg.indexOf(' ');
                                     //var secondSpace = msg.substring(firstSpace + 1).indexOf(' ');
                                     var lastSpace = msg.lastIndexOf(' ');
@@ -2230,12 +2230,12 @@ var esBot = {
                                     var name2 = msg.substring(lastSpace + 2);
                                     var user1 = esBot.userUtilities.lookupUserName(name1);
                                     var user2 = esBot.userUtilities.lookupUserName(name2);
-                                    if(typeof user1 === 'boolean' || typeof user2 === 'boolean') return API.sendChat('/me [@' + chat.from + '] Samba inválido (espaço não permitido)');
-                                    if(user1.id === esBot.loggedInID || user2.id === esBot.loggedInID) return API.sendChat('/me [@' + chat.from + '] Não sei sambar, só sei cantar...');
+                                    if(typeof user1 === 'boolean' || typeof user2 === 'boolean') return API.sendChat('/me [@' + chat.from + '] Swap inválido (espaço não permitido)');
+                                    if(user1.id === esBot.loggedInID || user2.id === esBot.loggedInID) return API.sendChat('/me [@' + chat.from + '] Não consegui trocar');
                                     var p1 = API.getWaitListPosition(user1.id);
                                     var p2 = API.getWaitListPosition(user2.id);
-                                    if(p1 < 0 || p2 < 0) return API.sendChat('/me [@' + chat.from + '] Use \'sambar\'somente com usuários na fila de espera.');
-                                    API.sendChat("/me Sambando posições: " + name1 + " com " + name2 + ".");
+                                    if(p1 < 0 || p2 < 0) return API.sendChat('/me [@' + chat.from + '] Use \'swap\'somente com usuários na fila de espera.');
+                                    API.sendChat("/me Trocando posições: " + name1 + " com " + name2 + ".");
                                     if(p1 < p2){
                                         esBot.userUtilities.moveUser(user2.id, p1+1, false);
                                         setTimeout(function(user1, p2){
