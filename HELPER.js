@@ -87,7 +87,7 @@ var esBot = {
         version: "1.1.8",        
         status: false,
         name: "HELPER",
-        creator: "Fesnandu",
+        creator: "bikini",
         loggedInID: null,
         scriptLink: "https://rawgit.com/Juaoo/HELPER/master/HELPER.js",
         cmdLink: "https://github.com/Juaoo/HELPER/blob/master/commands.md",
